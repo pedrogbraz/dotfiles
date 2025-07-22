@@ -1,43 +1,45 @@
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# === HISTÓRICO ===
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 
-# Set Powerlevel10k as the theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# === LOCALE ===
+export LANG=pt_BR.UTF-8
+export EDITOR=nano
 
-# Enable plugins
-plugins=(
-  git
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
+# === COLORIZAÇÃO E LS ===
+autoload -U colors && colors
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
 
-# Source Oh My Zsh
-source $ZSH/oh-my-zsh.sh
+# === CAMINHOS ===
+export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH"
 
-# Aliases básicos
-alias ll='ls -lah'
+# === STARSHIP ===
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG="$HOME/.config/starship.toml"
+
+# === AUTOCOMPLETIONS ===
+autoload -Uz compinit && compinit
+autoload -Uz promptinit && promptinit
+
+# === ALIASES ===
+alias ll='ls -lah --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
 alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
+alias update='sudo pacman -Syu'
 
-# Configurações úteis
-setopt autocd          # muda para diretório digitando só o nome
-setopt correct         # corrige comandos digitados errados
-setopt nocaseglob      # globbing case insensitive
+# === HISTÓRICO INTERATIVO COM SETAS ===
+bindkey "^[[A" history-search-backward
+bindkey "^[[B" history-search-forward
 
-# Habilita sugestões automáticas (plugin)
-# Já ativado pelo plugin zsh-autosuggestions
+# === SUPORTE A VI MODE (opcional) ===
+# bindkey -v
 
-# Habilita realce de sintaxe (plugin)
-# Já ativado pelo plugin zsh-syntax-highlighting
+# === BANNER (opcional) ===
+echo "Ola, $(whoami)!"
 
-# Carregue o Powerlevel10k instantaneamente
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Definir prompt do Powerlevel10k, se quiser rodar o assistente
-# p10k configure
-
-# Exportar PATH adicional (se necessário)
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+export PATH="$HOME/.cargo/bin:$PATH"
